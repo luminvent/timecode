@@ -1,6 +1,6 @@
 [package]
 name = "timecode"
-version = "0.7.4"
+version = "0.7.5"
 authors = [
     "Marc-Antoine Arnaud <marc-antoine.arnaud@luminvent.com",
     "Vincent Jousse <vincent.jousse@luminvent.com>",

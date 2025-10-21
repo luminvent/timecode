@@ -10,6 +10,7 @@ use frame_rate::Ratio;
 use num_traits::cast::ToPrimitive;
 use serde::{Deserialize, Serialize};
 use std::fmt::Display;
+use std::str::FromStr;
 use std::{string::ToString, time::Duration};
 
 #[derive(Debug, Deserialize, Clone, PartialEq, Serialize)]
@@ -64,6 +65,33 @@ impl From<(u32, FrameRate)> for Timecode {
       minutes: minutes as u8,
       seconds: seconds as u8,
       fraction,
+    }
+  }
+}
+
+impl FromStr for Timecode {
+  type Err = String;
+
+  fn from_str(str_timecode: &str) -> Result<Self, Self::Err> {
+    let timecode = str_timecode
+      .split(":")
+      .map(|value| value.parse::<u8>().unwrap_or_default())
+      .collect::<Vec<u8>>();
+
+    if timecode.len() == 4 {
+      Ok(Self {
+        hours: timecode[0],
+        minutes: timecode[1],
+        seconds: timecode[2],
+        fraction: Fraction::Frames(TimecodeFrames::new(
+          FrameRate::_25_00,
+          timecode[3],
+          false,
+          false,
+        )),
+      })
+    } else {
+      Err(format!("Invalid timecode: {}", str_timecode))
     }
   }
 }

@@ -211,6 +211,12 @@ impl From<&Timecode> for f64 {
   }
 }
 
+impl From<&Timecode> for Duration {
+  fn from(timecode: &Timecode) -> Self {
+    Duration::from_secs_f64(f64::from(timecode))
+  }
+}
+
 impl From<&Timecode> for Ratio<u64> {
   fn from(timecode: &Timecode) -> Self {
     let fraction_duration = match timecode.fraction() {

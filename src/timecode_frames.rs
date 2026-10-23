@@ -47,11 +47,7 @@ impl TimecodeFrames {
   }
 
   pub fn separator(&self) -> char {
-    if self.drop_frame() {
-      ';'
-    } else {
-      ':'
-    }
+    if self.drop_frame() { ';' } else { ':' }
   }
 }
 
